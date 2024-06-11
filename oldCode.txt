@@ -1,0 +1,96 @@
+
+void selectionFunction(double step, double randomValue, int firstIndex, int lastIndex) {
+	int bucket = 1;
+	for (int index = firstIndex; index < lastIndex; index++) {
+		double firstStep = exp(-1 * (index-1) * step); 
+		double secondStep = exp(-1 * index * step); 
+		cout << firstStep << " " << randomValue << " " << secondStep;
+		
+		if (randomValue <= firstStep && randomValue > secondStep) {
+			cout << " " << index-1 << endl;
+			// break;
+		} else {
+			cout << endl;
+		}
+	}
+}
+
+---
+
+// this assumes there exists an array of fitness values in order of desc
+/*
+seperate the selection function with inputs of index of an array
+this allows multiple use for pops size greater than 5
+*/
+// void selection() {
+	// POP_SIZE
+	// calc step value
+	// double step = 4.65/POP_SIZE; cout << "STEP: " << step << endl;
+	
+	// calc rand between 0 and 1
+	// double randomValue = static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+	// randomValue = round(randomValue * 100) / 100; cout << "RANDOMVALUE: " << randomValue << endl;
+	
+	// for (int index = 1; index < POP_SIZE; index++) {
+		// double firstStep = exp(-1 * (index-1) * step); 
+		// double secondStep = exp(-1 * index * step); 
+		// cout << firstStep << " " << randomValue << " " << secondStep;
+		
+		// if (randomValue <= firstStep && randomValue > secondStep) {
+			// cout << index-1 << endl;
+			// break;
+		// } else {
+			// cout << endl;
+		// }
+	// }
+// }
+
+
+int main() {
+	
+	initRandom();
+	initPopulation();	
+	
+	calcFitness();
+	sortPopByFitnessDesc();
+	printFitness();
+	
+	// create new population
+	for (int i = 0; i < POP_SIZE/2; i++) {
+		crossPoint();
+		mutate();
+		addChildrenToPopulation();
+	}
+	
+	// replace old population
+	for (int i = 0; i < POP_SIZE; i++) {
+		for (int j = 0; j < LENGTH; j++) {
+			population[i][j] = newPopulation[i][j];
+		}
+	}
+	
+	calcFitness();
+	sortPopByFitnessDesc();
+	printFitness();
+	
+		// create new population
+	for (int i = 0; i < POP_SIZE/2; i++) {
+		crossPoint();
+		mutate();
+		addChildrenToPopulation();
+	}
+	
+	// replace old population
+	for (int i = 0; i < POP_SIZE; i++) {
+		for (int j = 0; j < LENGTH; j++) {
+			population[i][j] = newPopulation[i][j];
+		}
+	}
+	
+	calcFitness();
+	sortPopByFitnessDesc();
+	printFitness();
+	
+	
+	return 0;
+}
